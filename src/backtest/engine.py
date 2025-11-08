@@ -43,12 +43,14 @@ class BacktestEngine:
 
         returns = prices["close"].pct_change().fillna(0.0)
         positions = signals.shift(1).fillna(0.0)  # enter at next bar open
-        strategy_returns = positions * returns
 
         if "date" in prices.columns:
             index = prices["date"]
             returns.index = index
             positions.index = index
+        strategy_returns = positions * returns
+
+        if "date" in prices.columns:
             strategy_returns.index = index
 
         equity_curve = (1 + strategy_returns).cumprod() * self.initial_capital
