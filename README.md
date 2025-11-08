@@ -33,12 +33,30 @@ result = engine.run(prices, strategy)
 print("Total return:", f"{result.total_return:.2%}")
 print("Annualized return:", f"{result.annualized_return:.2%}")
 print("Max drawdown:", f"{result.max_drawdown:.2%}")
+print("Volatility:", f"{result.volatility:.2%}")
+print("Sharpe ratio:", f"{result.sharpe_ratio:.2f}")
 print(result.trades.tail())
 ```
 
 The price loader caches requests under `~/.cache/jonas_pinigai` by default to
 avoid repeated network calls. Delete files in that directory or set the
 `PRICE_DATA_CACHE` environment variable to change the cache location.
+
+### Command-line execution
+
+You can also launch the backtest from the command line once the package is
+installed:
+
+```bash
+python -m backtest.cli AAPL --fast 12 --slow 26 --capital 10000 --report reports/aapl.png
+```
+
+In addition to the text summary, the CLI now generates a visual report with the
+price action (including entry/exit markers), equity curve, and performance
+tables. By default the report is saved to `./<ticker>_backtest.png`, and you can
+override the location via the `--report` option. Pass `--show` to open the
+figure interactively after saving. Use `python -m backtest.cli --help` to list
+all available options.
 
 ## Testing
 
